@@ -1,6 +1,7 @@
 package org.fasttrackit.videogameshop.service;
 
 import org.fasttrackit.videogameshop.domain.Cart;
+import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.CartRepository;
@@ -22,10 +23,13 @@ public class CartService {
 
     private final UserService userService;
 
+    private final ProductService productService;
+
     @Autowired
-    public CartService(CartRepository cartRepository, UserService userService) {
+    public CartService(CartRepository cartRepository, UserService userService, ProductService productService) {
         this.cartRepository = cartRepository;
         this.userService = userService;
+        this.productService = productService;
     }
 
 
@@ -41,6 +45,11 @@ public class CartService {
         }
 
         // TODO: add product to cart
+
+        Product product = productService.getProduct(request.getProductId());
+
+
+        cart.addProduct(product);
 
          cartRepository.save(cart);
     }
