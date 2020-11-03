@@ -30,7 +30,7 @@ public class CartService {
 
 
     @Transactional
-    public Cart addProductToCart(AddProductToCartRequest request) {
+    public void  addProductToCart(AddProductToCartRequest request) {
         LOGGER.info("Adding product to cart: {}", request);
 
         Cart cart = cartRepository.findById(request.getUserId()).orElse(new Cart());
@@ -42,7 +42,7 @@ public class CartService {
 
         // TODO: add product to cart
 
-        return cartRepository.save(cart);
+         cartRepository.save(cart);
     }
 
 

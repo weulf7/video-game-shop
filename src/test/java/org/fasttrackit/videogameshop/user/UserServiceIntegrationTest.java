@@ -1,8 +1,9 @@
-package org.fasttrackit.videogameshop;
+package org.fasttrackit.videogameshop.user;
 
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.service.UserService;
+import org.fasttrackit.videogameshop.steps.UserTestSteps;
 import org.fasttrackit.videogameshop.transfer.user.SaveUserRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,31 +21,21 @@ public class UserServiceIntegrationTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserTestSteps userTestSteps;
+
 
     @Test
     public void createUser_whenValidRequest_thenSaveCreatedUser(){
-        createUser();
+        userTestSteps.createUser();
 
     }
 
-    private User createUser() {
-        SaveUserRequest request = new SaveUserRequest();
-        request.setFirstName("Test First Name");
-        request.setLastName("Test Last Name");
 
-        User user = userService.createUser(request);
-
-        assertThat(user,notNullValue());
-        assertThat(user.getId(),greaterThan(0L));
-        assertThat(user.getFirstName(),is(request.getFirstName()));
-        assertThat(user.getLastName(),is(request.getLastName()));
-
-        return user;
-    }
 
     @Test
     public void getUser_whenExistingUser_thenReturnUser(){
-        User createdUser = createUser();
+        User createdUser = userTestSteps.createUser();
         User userResponse = userService.getUser(createdUser.getId());
 
         assertThat(userResponse,notNullValue());
@@ -55,7 +46,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void updateUser_whenExistingUser_thenSaveUpdatedUser(){
-        User existingUser = createUser();
+        User existingUser = userTestSteps.createUser();
         SaveUserRequest request = new SaveUserRequest();
 
         request.setFirstName(existingUser.getFirstName());
@@ -71,7 +62,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void deleteUser_whenExistingUser_thenDeleteUser(){
-        User user = createUser();
+        User user = userTestSteps.createUser();
         userService.deleteUser(user.getId());
 
         Assertions.assertThrows(ResourceNotFoundException.class,

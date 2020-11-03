@@ -25,10 +25,10 @@ public class CartController {
     }
 
     @PutMapping
-    public ResponseEntity<Cart> addProductToCart(@RequestBody @Valid AddProductToCartRequest request){
-        Cart cart = cartService.addProductToCart(request);
+    public ResponseEntity<Void> addProductToCart(@RequestBody @Valid AddProductToCartRequest request){
+        cartService.addProductToCart(request);
 
-        return ResponseEntity.ok(cart);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
