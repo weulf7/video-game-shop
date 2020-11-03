@@ -1,4 +1,4 @@
-package org.fasttrackit.videogameshop.transfer;
+package org.fasttrackit.videogameshop.transfer.user;
 
 public class GetUsersRequest {
 

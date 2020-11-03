@@ -3,8 +3,8 @@ package org.fasttrackit.videogameshop.web;
 
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.service.UserService;
-import org.fasttrackit.videogameshop.transfer.GetUsersRequest;
-import org.fasttrackit.videogameshop.transfer.SaveUserRequest;
+import org.fasttrackit.videogameshop.transfer.user.GetUsersRequest;
+import org.fasttrackit.videogameshop.transfer.user.SaveUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

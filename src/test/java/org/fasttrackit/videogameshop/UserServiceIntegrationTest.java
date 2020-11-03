@@ -3,7 +3,7 @@ package org.fasttrackit.videogameshop;
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.service.UserService;
-import org.fasttrackit.videogameshop.transfer.SaveUserRequest;
+import org.fasttrackit.videogameshop.transfer.user.SaveUserRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

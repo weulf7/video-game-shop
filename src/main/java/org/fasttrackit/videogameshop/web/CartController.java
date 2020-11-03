@@ -4,7 +4,9 @@ package org.fasttrackit.videogameshop.web;
 import org.fasttrackit.videogameshop.domain.Cart;
 import org.fasttrackit.videogameshop.service.CartService;
 import org.fasttrackit.videogameshop.transfer.cart.AddProductToCartRequest;
+import org.fasttrackit.videogameshop.transfer.cart.CartResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +30,12 @@ public class CartController {
 
         return ResponseEntity.ok(cart);
 
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<CartResponse> getCart(@PathVariable long userId){
+        CartResponse cart = cartService.getCart(userId);
+
+       return ResponseEntity.ok(cart);
     }
 }
