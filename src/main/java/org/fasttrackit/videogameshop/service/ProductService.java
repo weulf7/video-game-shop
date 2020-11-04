@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,17 +48,15 @@ public class ProductService {
     }
 
 
+    public Product getProduct(long id) {
+        LOGGER.info("Retrieving product: {}", id);
 
-
-    public Product getProduct(long id){
-        LOGGER.info("Retrieving product: {}",id);
-
-        return productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product with id "+id+" does not exist"));
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " does not exist"));
 
     }
 
-    public ProductResponse getProductResponse(long id){
-        LOGGER.info("Retrieving product {}",id);
+    public ProductResponse getProductResponse(long id) {
+        LOGGER.info("Retrieving product {}", id);
 
         Product product = getProduct(id);
 
@@ -70,48 +65,52 @@ public class ProductService {
 
     }
 
-    public Page<ProductResponse> getProducts(GetProductsRequest request, Pageable pageable){
+    public Page<ProductResponse> getProducts(GetProductsRequest request, Pageable pageable) {
 
-        LOGGER.info("Retrieving products: {}",request);
+        LOGGER.info("Retrieving products: {}", request);
 
-        Product exampleProduct =new Product();
+        Product exampleProduct = new Product();
         exampleProduct.setName(request.getPartialName());
         exampleProduct.setDescription(request.getPartialDescription());
         exampleProduct.setPrice(request.getPrice());
         exampleProduct.setQuantity(request.getMinQuantity());
         exampleProduct.setCarts(null);
 
-        Example<Product>productExample=Example.of(exampleProduct);
+        Example<Product> productExample = Example.of(exampleProduct,
+                ExampleMatcher.matchingAny()
+                        .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                        .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                        .withMatcher("price", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                        .withMatcher("quantity", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase()));
 
 
         Page<Product> productsPage = productRepository.findAll(productExample, pageable);
 
-        List<ProductResponse> products =new ArrayList<>();
+        List<ProductResponse> products = new ArrayList<>();
 
-        for (Product product: productsPage.getContent()){
+        for (Product product : productsPage.getContent()) {
 
             ProductResponse productResponse = mapProductResponse(product);
 
             products.add(productResponse);
         }
 
-        return new PageImpl<>(products,pageable,productsPage.getTotalElements());
+        return new PageImpl<>(products, pageable, productsPage.getTotalElements());
 
 
     }
 
 
-    public ProductResponse updateProduct(SaveProductRequest request,long id){
-        LOGGER.info("Updating Product {}: {}",id,request);
+    public ProductResponse updateProduct(SaveProductRequest request, long id) {
+        LOGGER.info("Updating Product {}: {}", id, request);
 
         Product product = getProduct(id);
 
-        BeanUtils.copyProperties(request,product);
+        BeanUtils.copyProperties(request, product);
 
         Product save = productRepository.save(product);
 
         ProductResponse productResponse = mapProductResponse(save);
-
 
 
         return productResponse;
