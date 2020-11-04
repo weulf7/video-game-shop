@@ -3,6 +3,7 @@ package org.fasttrackit.videogameshop.service;
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.ProductRepository;
+import org.fasttrackit.videogameshop.transfer.product.ProductResponse;
 import org.fasttrackit.videogameshop.transfer.product.SaveProductRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct(SaveProductRequest request) {
+    public ProductResponse createProduct(SaveProductRequest request) {
         LOGGER.info("Creating product: {}", request);
 
         Product product = new Product();
@@ -32,13 +33,32 @@ public class ProductService {
         product.setPrice(request.getPrice());
         product.setQuantity(request.getQuantity());
 
-        return productRepository.save(product);
+
+        Product savedProduct = productRepository.save(product);
+
+        return mapProductResponse(savedProduct);
+
 
     }
+
+
+
 
     public Product getProduct(long id){
         LOGGER.info("Retrieving product: {}",id);
 
         return productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product with id "+id+" does not exist"));
+    }
+
+    private ProductResponse mapProductResponse(Product product) {
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setId(product.getId());
+        productResponse.setDescription(product.getDescription());
+        productResponse.setImageUrl(product.getImageUrl());
+        productResponse.setName(product.getName());
+        productResponse.setPrice(product.getPrice());
+        productResponse.setQuantity(product.getQuantity());
+
+        return productResponse;
     }
 }
