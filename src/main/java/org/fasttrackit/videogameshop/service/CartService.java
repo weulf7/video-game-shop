@@ -8,6 +8,7 @@ import org.fasttrackit.videogameshop.persistance.CartRepository;
 import org.fasttrackit.videogameshop.transfer.cart.AddProductToCartRequest;
 import org.fasttrackit.videogameshop.transfer.cart.CartResponse;
 import org.fasttrackit.videogameshop.transfer.cart.ProductInCart;
+import org.fasttrackit.videogameshop.transfer.product.ProductResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

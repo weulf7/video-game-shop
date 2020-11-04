@@ -1,6 +1,7 @@
 package org.fasttrackit.videogameshop.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.Set;
 public class Product {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private String description;

@@ -15,19 +15,19 @@ public class Cart {
     @MapsId
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "cart_product",
-    joinColumns =@JoinColumn(name = "cart_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product>products=new HashSet<>();
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> products = new HashSet<>();
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         products.add(product);
 
         product.getCarts().add(this);
     }
 
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         products.remove(product);
         product.getCarts().remove(this);
     }

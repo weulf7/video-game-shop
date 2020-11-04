@@ -12,7 +12,6 @@ public class User {
     @GeneratedValue
     private long id;
 
-
     @NotNull
     private String firstName;
 
