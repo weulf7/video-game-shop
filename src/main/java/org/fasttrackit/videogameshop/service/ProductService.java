@@ -118,6 +118,13 @@ public class ProductService {
 
     }
 
+    public void deleteProduct(long id){
+
+        LOGGER.info("Deleting product {}",id);
+
+        productRepository.deleteById(id);
+    }
+
     private ProductResponse mapProductResponse(Product product) {
         ProductResponse productResponse = new ProductResponse();
         productResponse.setId(product.getId());
