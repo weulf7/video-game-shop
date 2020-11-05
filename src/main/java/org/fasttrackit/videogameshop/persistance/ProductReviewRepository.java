@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductReviewRepository extends JpaRepository<ProductReview,Long> {
 
-    Page<ProductReview>findByProductId(long productId, Pageable pageable);
+    Page<ProductReview>findByProductId(String partialContent,long productId, Pageable pageable);
 }
