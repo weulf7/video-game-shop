@@ -5,10 +5,12 @@ import org.fasttrackit.videogameshop.domain.ProductReview;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.ProductReviewRepository;
 import org.fasttrackit.videogameshop.transfer.productReview.GetProductReviewsRequest;
+import org.fasttrackit.videogameshop.transfer.productReview.ProductReviewRequest;
 import org.fasttrackit.videogameshop.transfer.productReview.ProductReviewResponse;
 import org.fasttrackit.videogameshop.transfer.productReview.SaveProductReviewRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -95,6 +97,28 @@ public class ProductReviewService {
 
         return new PageImpl<>(productReviews,pageable,reviewPage.getTotalElements());
 
+    }
+
+    public ProductReviewResponse updateProductReview(ProductReviewRequest reviewRequest, long id){
+        LOGGER.info("Updating product review {}: {}",id,reviewRequest);
+
+        ProductReview productReview = getProductReview(id);
+
+        BeanUtils.copyProperties(reviewRequest,productReview);
+
+        ProductReview save = productReviewRepository.save(productReview);
+
+        ProductReviewResponse response = mapProductReviewResponse(save);
+
+       return response;
+
+
+    }
+
+    public void deleteProductReview(long id){
+        LOGGER.info("Deleting product review {}",id);
+
+        productReviewRepository.deleteById(id);
     }
 
 

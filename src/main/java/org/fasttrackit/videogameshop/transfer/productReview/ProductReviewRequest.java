@@ -1,20 +1,8 @@
 package org.fasttrackit.videogameshop.transfer.productReview;
 
-public class SaveProductReviewRequest {
+public class ProductReviewRequest {
 
     private String content;
-
-    private Long productId;
-
-
-
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
 
     public String getContent() {
         return content;
@@ -26,9 +14,8 @@ public class SaveProductReviewRequest {
 
     @Override
     public String toString() {
-        return "SaveProductReviewRequest{" +
+        return "ProductReviewRequest{" +
                 "content='" + content + '\'' +
-                ", productId=" + productId +
                 '}';
     }
 }

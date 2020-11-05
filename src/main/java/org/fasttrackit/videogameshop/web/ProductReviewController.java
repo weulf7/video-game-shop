@@ -2,6 +2,7 @@ package org.fasttrackit.videogameshop.web;
 
 import org.fasttrackit.videogameshop.service.ProductReviewService;
 import org.fasttrackit.videogameshop.transfer.productReview.GetProductReviewsRequest;
+import org.fasttrackit.videogameshop.transfer.productReview.ProductReviewRequest;
 import org.fasttrackit.videogameshop.transfer.productReview.ProductReviewResponse;
 import org.fasttrackit.videogameshop.transfer.productReview.SaveProductReviewRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,21 @@ public class ProductReviewController {
         Page<ProductReviewResponse> productReviews = productReviewService.getProductReviews(reviewsRequest, pageable);
 
         return ResponseEntity.ok(productReviews);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductReviewResponse> updateProductReview(@RequestBody @Valid ProductReviewRequest reviewsRequest, @PathVariable long id){
+        ProductReviewResponse reviewResponse = productReviewService.updateProductReview(reviewsRequest, id);
+
+        return ResponseEntity.ok(reviewResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProductReview(long id){
+        productReviewService.deleteProductReview(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }
